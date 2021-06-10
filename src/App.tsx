@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [data, setData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        axios.get('/data/2.5/forecast?q=amsterdam,NL&appid=b6907d289e10d714a6e88b30761fae22')
+        .then(response => {
+            setIsLoading(true);
+            setData(response.data);
+        })
+        .catch(error => {
+            setError(error);
+        })
+        .then(() => {
+            setIsLoading(false);
+        });
+    }, []);
+
+    return (
+        <div className="WeatherForcast">
+
+        </div>
+    );
 }
 
 export default App;

@@ -1,0 +1,9 @@
+$mobile-range: (0, 480px);
+$phablet-range: (481px, 660px);
+$tablet-range: (661px, 1023px);
+$desktop-range: (1024px, 999999px);
+
+$mobile-up: '(min-width: #{nth($mobile-range, 1)})';
+$phablet-up: '(min-width: #{nth($phablet-range, 1)})';
+$tablet-up: '(min-width: #{nth($tablet-range, 1)})';
+$desktop-up: '(min-width: #{nth($desktop-range, 1)})';

@@ -1,0 +1,20 @@
+@font-face {
+	font-family: 'Roboto Regular';
+	src: url('./../assets/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Roboto Bold';
+	src: url('./../assets/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+}
+
+body {
+	margin: 0;
+	font-family: $georgia;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: monospace;
+}
