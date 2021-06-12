@@ -3,11 +3,11 @@ import './WeatherOverview.scss';
 
 interface WeatherOverviewProps {
     cityName: string;
-    dateTime: string;
+    dateTime: number;
     description: string;
     temp: number;
-    tempMax: number;
-    tempMin: number;
+    tempMax?: number;
+    tempMin?: number;
 }
 
 const WeatherOverview = ({
@@ -18,7 +18,14 @@ const WeatherOverview = ({
     tempMax,
     tempMin,
 }: WeatherOverviewProps) => {
-
+    return (
+        <ul>
+            <li>{cityName}</li>
+            <li>{dateTime}</li>
+            <li>{description}</li>
+            <li>{temp}</li>
+        </ul>
+    );
 }
 
 export default WeatherOverview;

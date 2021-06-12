@@ -1,1 +1,11 @@
+@import './static/css/variables';
 
+.WeatherForcastApp {
+	width: 100vw;
+	height: 100vh;
+	background-color: $darkBlue;
+}
+
+.WeatherFormcastApp__list {
+	display: flex;
+}
