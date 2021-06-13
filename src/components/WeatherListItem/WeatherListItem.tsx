@@ -4,24 +4,27 @@ import getWeatherIcon from './../../static/js/utils/getWeatherIcon';
 import kelvinsToCelsius from '../../static/js/utils/kelvinsToCelsius';
 
 interface WeatherListItemProps {
+    description: string;
     icon: string;
     temp: number;
     time: string;
 }
 
 const WeatherListItem = ({
+    description,
     icon,
     temp,
     time,
 }: WeatherListItemProps) => {
     return (
         <li className="WeatherListItem">
-            <p>{time}</p>
+            <span className="WeatherListItem__time">{time}</span>
             <img
-                alt=""
+                alt={`Weather icon for ${description.toLowerCase()} forecast.`}
+                className="WeatherListItem__icon"
                 src={getWeatherIcon(icon, 'small')}
             />
-            <p>{kelvinsToCelsius(temp)}</p>
+            <span className="WeatherListItem__temp">{kelvinsToCelsius(temp)}</span>
         </li>
     );
 }

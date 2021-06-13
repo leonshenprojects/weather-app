@@ -1,4 +1,24 @@
+@import './../../static/css/variables';
+@import './../../static/css/mediaqueries';
+
 .WeatherListItem {
-	padding: 51px;
+	padding: 10px 15px;
 	overflow: hidden;
+}
+
+.WeatherListItem__time {
+	font-family: $roboto-regular;
+	font-size: 18px;
+	color: $lightGrey;
+}
+
+.WeatherListItem__icon {
+	margin: 8px 0px;
+	height: 42px;
+}
+
+.WeatherListItem__temp {
+	font-family: $roboto-bold;
+	font-size: 30px;
+	color: $white;
 }

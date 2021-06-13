@@ -42,7 +42,7 @@ function App() {
     }, [weatherList]);
 
     return (
-        <div className="WeatherForcastApp">
+        <div className="WeatherForecastApp">
             {!isLoading &&
                 <>
                     {selectedItem &&
@@ -57,14 +57,16 @@ function App() {
                         />
                     }
 
-                    <ul className="WeatherFormcastApp__list">
+                    <ul className="WeatherForecastApp__list">
                         {weatherList.map((item) => {
                             return (
                                 <button
+                                    className={`WeatherForecastApp__listItem ${item.dt === selectedItem?.dt ? "isActive" : ""}`}
                                     key={item.dt}
                                     onClick={() => handleItemClick(item)}
                                 >
                                     <WeatherListItem
+                                        description={item.weather[0].main}
                                         icon={item.weather[0].icon}
                                         temp={item.main.temp}
                                         time={getTime(item.dt_txt)}

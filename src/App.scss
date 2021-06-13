@@ -1,16 +1,35 @@
 @import './static/css/variables';
+@import './static//css//mediaqueries';
 
-.WeatherForcastApp {
-	width: 100vw;
-	height: 100vh;
+.WeatherForecastApp {
+	height: 100%;
 	background-color: $darkBlue;
 }
 
-.WeatherFormcastApp__list {
+.WeatherForecastApp__list {
 	display: flex;
 	overflow-x: auto;
+	margin: 0px 15px;
+	padding: 0px;
 
 	&::-webkit-scrollbar {
 		display: none;
+	}
+
+	@media #{$desktop-up} {
+		max-width: 1300px;
+		margin: auto;
+	}
+}
+
+.WeatherForecastApp__listItem {
+	background-color: $darkBlue;
+	border: 0px;
+	width: 100px;
+
+	&:hover,
+	&:focus,
+	&.isActive {
+		background-color: $lightBlue;
 	}
 }

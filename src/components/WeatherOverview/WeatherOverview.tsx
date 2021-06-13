@@ -29,7 +29,7 @@ const WeatherOverview = ({
         <header className="WeatherOverview">
             <article className="WeatherOverview__forecast">
                 <img
-                    alt={`Icon for ${description}`}
+                    alt={`Weather icon for ${description.toLowerCase()} forecast.`}
                     className="WeatherOverview__icon"
                     src={getWeatherIcon(icon, 'large')}
                 />

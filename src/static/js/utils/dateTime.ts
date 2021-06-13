@@ -10,5 +10,5 @@ export const getDate = (datetime: string) => {
 
 export const getTime = (datetime: string) => {
     const date = new Date(datetime);
-    return date.toLocaleTimeString('en-us', {hour12: false, hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleTimeString('en-us', {hour12: false, hour: '2-digit', minute: '2-digit' }).replace("24:00", "00:00");
 }
