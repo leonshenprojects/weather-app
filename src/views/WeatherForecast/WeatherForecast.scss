@@ -33,3 +33,17 @@
 		background-color: $lightBlue;
 	}
 }
+
+.WeatherForecast__loadingIndicator {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.WeatherForecast__error {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

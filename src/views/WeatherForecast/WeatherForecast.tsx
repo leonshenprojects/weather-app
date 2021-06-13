@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as Api from './../../static/js/utils/api/weatherService';
-import { WeatherItem } from './../../static/js/utils/types';
+import Error from '../../components/Error/Error';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 import WeatherListItem from './../../components/WeatherListItem/WeatherListItem';
 import WeatherOverview from './../../components/WeatherOverview/WeatherOverview';
 import { getTime } from './../../static/js/utils/dateTime';
+import { WeatherItem } from './../../static/js/utils/types';
 import getTempRange, { TempRange } from './../../static/js/utils/getTempRange';
 import './WeatherForecast.scss';
+import wait from '../../static/js/utils/wait';
 
 const WeatherForecast = () => {
     const [weatherList, setWeatherList] = useState([] as Array<WeatherItem>);
     const [isLoading, setIsLoading] = useState(false);
+    const [hasError, setHasError] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null as WeatherItem | null);
     const [tempRange, setTempRange] = useState({} as TempRange);
 
@@ -21,14 +25,22 @@ const WeatherForecast = () => {
 
     useEffect(() => {
         async function fetchData() {
-            setIsLoading(true);
-            const response = await Api.getWeatherData();
+            try {
+                setIsLoading(true);
+                const response = await Api.getWeatherData();
 
-            if (response) {
-                setWeatherList(response.data.list);
-                cityName.current = response.data.city.name;
+                // Purposely wait to show loading state
+                await wait(1000);
+
+                if (response) {
+                    setWeatherList(response.data.list);
+                    cityName.current = response.data.city.name;
+                }
+                setIsLoading(false);
+            } catch (error) {
+                setHasError(true);
+                setIsLoading(false);
             }
-            setIsLoading(false);
         }
 
         fetchData();
@@ -42,8 +54,20 @@ const WeatherForecast = () => {
     }, [weatherList]);
 
     return (
-        <div className="WeatherForecastApp">
-            {!isLoading &&
+        <div className="WeatherForecast">
+            {isLoading &&
+                <div className="WeatherForecast__loadingIndicator">
+                    <LoadingIndicator/>
+                </div>
+            }
+
+            {hasError &&
+                <div className="WeatherForecast__error">
+                    <Error/>
+                </div>
+            }
+
+            {!isLoading && !hasError &&
                 <>
                     {selectedItem &&
                         <WeatherOverview
@@ -57,11 +81,11 @@ const WeatherForecast = () => {
                         />
                     }
 
-                    <ul className="WeatherForecastApp__list">
+                    <ul className="WeatherForecast__list">
                         {weatherList.map((item) => {
                             return (
                                 <button
-                                    className={`WeatherForecastApp__listItem ${item.dt === selectedItem?.dt ? "isActive" : ""}`}
+                                    className={`WeatherForecast__listItem ${item.dt === selectedItem?.dt ? "isActive" : ""}`}
                                     key={item.dt}
                                     onClick={() => handleItemClick(item)}
                                 >
