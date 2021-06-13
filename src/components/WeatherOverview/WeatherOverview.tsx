@@ -26,20 +26,40 @@ const WeatherOverview = ({
     const date = getDate(dateTime);
 
     return (
-        <ul>
-            <li>{cityName}</li>
-            <li>{description}</li>
-            <li>{kelvinsToCelsius(temp)}</li>
-            <img
-                alt=""
-                className="WeatherOverviewIcon"
-                src={getWeatherIcon(icon, 'large')}
-            />
-            {tempMax && tempMin &&
-                <li>Temp Range: {kelvinsToCelsius(tempMax)}/{kelvinsToCelsius(tempMin)}</li>
-            }
-            <li>{date.date} {date.day} {date.month}</li>
-        </ul>
+        <header className="WeatherOverview">
+            <article className="WeatherOverview__forecast">
+                <img
+                    alt={`Icon for ${description}`}
+                    className="WeatherOverview__icon"
+                    src={getWeatherIcon(icon, 'large')}
+                />
+
+                <div className="WeatherOverview__forcastDetails">
+                    <div className="WeatherOverview__forecastSummary">
+                        <span className="WeatherOverview__description">{description}</span>
+                        <span className="WeatherOverview__tempRange">
+                            {tempMax && tempMin &&
+                                <>{kelvinsToCelsius(tempMax)} / {kelvinsToCelsius(tempMin)}</>
+                            }
+                        </span>
+                    </div>
+
+                    <div className="WeatherOverview__temp">
+                        {kelvinsToCelsius(temp)}
+                    </div>
+                </div>
+            </article>
+
+            <article className="WeatherOverview__detailsContainer">
+                <div className="WeatherOverview__details">
+                    <div className="WeatherOverview__city">{cityName}</div>
+                    <div className="WeatherOverview__date">
+                        <span>{date.day}</span>
+                        <span>{date.date}. {date.month}</span>
+                    </div>
+                </div>
+            </article>
+        </header>
     );
 }
 
