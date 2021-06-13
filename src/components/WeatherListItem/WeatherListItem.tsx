@@ -1,19 +1,27 @@
 import React from 'react';
 import './WeatherListItem.scss';
+import getWeatherIcon from './../../static/js/utils/getWeatherIcon';
+import kelvinsToCelsius from '../../static/js/utils/kelvinsToCelsius';
 
 interface WeatherListItemProps {
-    dateTime: number;
+    icon: string;
     temp: number;
+    time: string;
 }
 
 const WeatherListItem = ({
-    dateTime,
+    icon,
     temp,
+    time,
 }: WeatherListItemProps) => {
     return (
         <li className="WeatherListItem">
-            <p>{dateTime}</p>
-            <p>{temp}</p>
+            <p>{time}</p>
+            <img
+                alt=""
+                src={getWeatherIcon(icon, 'small')}
+            />
+            <p>{kelvinsToCelsius(temp)}</p>
         </li>
     );
 }

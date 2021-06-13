@@ -3,12 +3,15 @@ import * as Api from './static/js/utils/api/weatherService';
 import { WeatherItem } from './static/js/utils/types';
 import WeatherListItem from './components/WeatherListItem/WeatherListItem';
 import WeatherOverview from './components/WeatherOverview/WeatherOverview';
+import { getTime } from './static/js/utils/dateTime';
+import getTempRange, { TempRange } from './static/js/utils/getTempRange';
 import './App.scss';
 
 function App() {
     const [weatherList, setWeatherList] = useState([] as Array<WeatherItem>);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null as WeatherItem | null);
+    const [tempRange, setTempRange] = useState({} as TempRange);
 
     const cityName = useRef('');
 
@@ -34,6 +37,7 @@ function App() {
     useEffect(() => {
         if (weatherList.length > 0) {
             setSelectedItem(weatherList[0])
+            setTempRange(getTempRange(weatherList));
         }
     }, [weatherList]);
 
@@ -44,9 +48,12 @@ function App() {
                     {selectedItem &&
                         <WeatherOverview
                             cityName={cityName.current}
-                            dateTime={selectedItem?.dt}
-                            description={selectedItem?.weather[0].main}
-                            temp={selectedItem?.main.temp}
+                            dateTime={selectedItem.dt_txt}
+                            description={selectedItem.weather[0].main}
+                            icon={selectedItem.weather[0].icon}
+                            temp={selectedItem.main.temp}
+                            tempMax={tempRange.maxTemp}
+                            tempMin={tempRange.minTemp}
                         />
                     }
 
@@ -58,8 +65,9 @@ function App() {
                                     onClick={() => handleItemClick(item)}
                                 >
                                     <WeatherListItem
-                                        dateTime={item.dt}
+                                        icon={item.weather[0].icon}
                                         temp={item.main.temp}
+                                        time={getTime(item.dt_txt)}
                                     />
                                 </button>
                             );
