@@ -1,11 +1,8 @@
 import React from 'react';
-import WeatherForecast from './views/WeatherForecast/WeatherForecast'
-import './App.scss';
+import WeatherForecast from './views/WeatherForecast/WeatherForecast';
 
-function App() {
-    return (
-        <WeatherForecast/>
-    );
-}
+const App: React.FC = () => {
+	return <WeatherForecast />;
+};
 
 export default App;

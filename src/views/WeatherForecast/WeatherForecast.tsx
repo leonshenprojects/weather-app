@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Api from './../../static/js/utils/api/weatherService';
 import Error from '../../components/Error/Error';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
@@ -7,102 +7,85 @@ import WeatherOverview from './../../components/WeatherOverview/WeatherOverview'
 import { getTime } from './../../static/js/utils/dateTime';
 import { WeatherItem } from './../../static/js/utils/types';
 import getTempRange, { TempRange } from './../../static/js/utils/getTempRange';
+import kelvinsToCelsius from '../../static/js/utils/kelvinsToCelsius';
 import './WeatherForecast.scss';
-import wait from '../../static/js/utils/wait';
 
-const WeatherForecast = () => {
-    const [weatherList, setWeatherList] = useState([] as Array<WeatherItem>);
-    const [isLoading, setIsLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null as WeatherItem | null);
-    const [tempRange, setTempRange] = useState({} as TempRange);
+const WeatherForecast: React.FC = () => {
+	const [weatherList, setWeatherList] = useState<WeatherItem[]>([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [hasError, setHasError] = useState(false);
+	const [selectedItem, setSelectedItem] = useState<WeatherItem | null>(null);
+	const [tempRange, setTempRange] = useState<TempRange>({
+		maxTemp: NaN,
+		minTemp: NaN, // set appropriate defaults
+	});
+	const [cityName, setCityName] = useState('');
 
-    const cityName = useRef('');
+	const handleItemClick = (item: WeatherItem) => {
+		setSelectedItem(item);
+	};
 
-    const handleItemClick = (item: any) => {
-        setSelectedItem(item)
-    }
+	useEffect(() => {
+		async function fetchData() {
+			setIsLoading(true);
+			const response = await Api.getWeatherData();
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                setIsLoading(true);
-                const response = await Api.getWeatherData();
+			if (response.status === 200) {
+				const { list } = response.data;
+				setWeatherList(list);
+				setCityName(response.data.city.name);
+				setSelectedItem(list[0]);
+				setTempRange(getTempRange(list));
+			} else {
+				setHasError(true);
+			}
 
-                // Purposely wait to show loading state
-                await wait(1000);
+			setIsLoading(false);
+		}
 
-                if (response) {
-                    setWeatherList(response.data.list);
-                    cityName.current = response.data.city.name;
-                }
-                setIsLoading(false);
-            } catch (error) {
-                setHasError(true);
-                setIsLoading(false);
-            }
-        }
+		fetchData();
+	}, []);
 
-        fetchData();
-    }, []);
+	return (
+		<div className="WeatherForecast">
+			{isLoading && <LoadingIndicator />}
 
-    useEffect(() => {
-        if (weatherList.length > 0) {
-            setSelectedItem(weatherList[0])
-            setTempRange(getTempRange(weatherList));
-        }
-    }, [weatherList]);
+			{hasError && <Error />}
 
-    return (
-        <div className="WeatherForecast">
-            {isLoading &&
-                <div className="WeatherForecast__loadingIndicator">
-                    <LoadingIndicator/>
-                </div>
-            }
+			{weatherList.length > 0 && (
+				<>
+					{selectedItem && (
+						<WeatherOverview
+							cityName={cityName}
+							dateTime={selectedItem.dt_txt}
+							description={selectedItem.weather[0].main}
+							icon={selectedItem.weather[0].icon}
+							temp={kelvinsToCelsius(selectedItem.main.temp)}
+							tempMax={kelvinsToCelsius(tempRange.maxTemp)}
+							tempMin={kelvinsToCelsius(tempRange.minTemp)}
+						/>
+					)}
 
-            {hasError &&
-                <div className="WeatherForecast__error">
-                    <Error/>
-                </div>
-            }
-
-            {!isLoading && !hasError &&
-                <>
-                    {selectedItem &&
-                        <WeatherOverview
-                            cityName={cityName.current}
-                            dateTime={selectedItem.dt_txt}
-                            description={selectedItem.weather[0].main}
-                            icon={selectedItem.weather[0].icon}
-                            temp={selectedItem.main.temp}
-                            tempMax={tempRange.maxTemp}
-                            tempMin={tempRange.minTemp}
-                        />
-                    }
-
-                    <ul className="WeatherForecast__list">
-                        {weatherList.map((item) => {
-                            return (
-                                <button
-                                    className={`WeatherForecast__listItem ${item.dt === selectedItem?.dt ? "isActive" : ""}`}
-                                    key={item.dt}
-                                    onClick={() => handleItemClick(item)}
-                                >
-                                    <WeatherListItem
-                                        description={item.weather[0].main}
-                                        icon={item.weather[0].icon}
-                                        temp={item.main.temp}
-                                        time={getTime(item.dt_txt)}
-                                    />
-                                </button>
-                            );
-                        })}
-                    </ul>
-                </>
-            }
-        </div>
-    );
-}
+					<ul className="WeatherForecast__list">
+						{weatherList.map((item) => {
+							return (
+								<li className="WeatherForecast__listItem" key={item.dt}>
+									<WeatherListItem
+										description={item.weather[0].main}
+										icon={item.weather[0].icon}
+										isActive={item.dt === selectedItem?.dt}
+										temp={kelvinsToCelsius(item.main.temp)}
+										time={getTime(item.dt_txt)}
+										onClick={() => handleItemClick(item)}
+									/>
+								</li>
+							);
+						})}
+					</ul>
+				</>
+			)}
+		</div>
+	);
+};
 
 export default WeatherForecast;

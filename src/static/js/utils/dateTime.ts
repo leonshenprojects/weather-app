@@ -1,34 +1,43 @@
-export const getDate = (datetime: string) => {
-    if (!datetime) {
-        return {
-            date: '',
-            day: '',
-            month: '',
-        }
-    }
-
-    const date = new Date(datetime);
-
-    if (date.toLocaleString('en-us', {day:'numeric'}) === 'Invalid Date') {
-        return {
-            date: '',
-            day: '',
-            month: '',  
-        }
-    }
-
-    return {
-        date: date.toLocaleString('en-us', {day:'numeric'}),
-        day: date.toLocaleString('en-us', {weekday:'long'}),
-        month: date.toLocaleString('en-us', {month:'long'}),
-    }
+interface DateData {
+	weekday: string;
+	day: string;
+	month: string;
 }
 
-export const getTime = (datetime: string) => {
-    if (!datetime) {
-        return '';
-    }
+export const getDate = (datetime: string): DateData => {
+	const date = new Date(datetime);
+	const dateString = date.toLocaleString('en', {
+		weekday: 'long',
+		day: 'numeric',
+		month: 'long',
+	});
 
-    const date = new Date(datetime);
-    return date.toLocaleTimeString('en-us', {hour12: false, hour: '2-digit', minute: '2-digit' }).replace("24:00", "00:00");
-}
+	if (dateString === 'Invalid Date') {
+		return {
+			weekday: '',
+			day: '',
+			month: '',
+		};
+	}
+
+	const [weekday, month, day] = dateString.replace(',', '').split(' ');
+
+	return {
+		weekday,
+		day,
+		month,
+	};
+};
+
+export const getTime = (datetime: string): string => {
+	const date = new Date(datetime);
+	const dateString = date.toLocaleString('en', {
+		hour12: false,
+		hour: '2-digit',
+		minute: '2-digit',
+	});
+
+	return dateString === 'Invalid Date'
+		? ''
+		: dateString.replace('24:00', '00:00');
+};

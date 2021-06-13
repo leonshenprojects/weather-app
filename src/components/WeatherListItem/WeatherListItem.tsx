@@ -1,32 +1,38 @@
 import React from 'react';
 import './WeatherListItem.scss';
 import getWeatherIcon from './../../static/js/utils/getWeatherIcon';
-import kelvinsToCelsius from '../../static/js/utils/kelvinsToCelsius';
 
 interface WeatherListItemProps {
-    description: string;
-    icon: string;
-    temp: number;
-    time: string;
+	description: string;
+	icon: string;
+	isActive: boolean;
+	temp: number;
+	time: string;
+	onClick(): void;
 }
 
-const WeatherListItem = ({
-    description,
-    icon,
-    temp,
-    time,
-}: WeatherListItemProps) => {
-    return (
-        <li className="WeatherListItem">
-            <span className="WeatherListItem__time">{time}</span>
-            <img
-                alt={`Weather icon for ${description.toLowerCase()} forecast.`}
-                className="WeatherListItem__icon"
-                src={getWeatherIcon(icon, 'small')}
-            />
-            <span className="WeatherListItem__temp">{kelvinsToCelsius(temp)}</span>
-        </li>
-    );
-}
+const WeatherListItem: React.FC<WeatherListItemProps> = ({
+	description,
+	icon,
+	isActive,
+	temp,
+	time,
+	onClick,
+}) => {
+	return (
+		<button
+			className={`WeatherListItem ${isActive ? 'WeatherListItem--active' : ''}`}
+			onClick={onClick}
+		>
+			<span className="WeatherListItem__time">{time}</span>
+			<img
+				alt={`Weather icon for ${description.toLowerCase()} forecast.`}
+				className="WeatherListItem__icon"
+				src={getWeatherIcon(icon, 'small')}
+			/>
+			<span className="WeatherListItem__temp">{temp}&#176;</span>
+		</button>
+	);
+};
 
 export default WeatherListItem;

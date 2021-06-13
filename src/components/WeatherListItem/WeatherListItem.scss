@@ -4,6 +4,15 @@
 .WeatherListItem {
 	padding: 10px 15px;
 	overflow: hidden;
+	background-color: $darkBlue;
+	border: 0px;
+	width: 100px;
+
+	&:hover,
+	&:focus,
+	&--active {
+		background-color: $lightBlue;
+	}
 }
 
 .WeatherListItem__time {

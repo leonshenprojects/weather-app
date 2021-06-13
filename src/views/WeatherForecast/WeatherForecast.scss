@@ -23,15 +23,7 @@
 }
 
 .WeatherForecast__listItem {
-	background-color: $darkBlue;
-	border: 0px;
-	width: 100px;
-
-	&:hover,
-	&:focus,
-	&.isActive {
-		background-color: $lightBlue;
-	}
+	list-style-type: none;
 }
 
 .WeatherForecast__loadingIndicator {

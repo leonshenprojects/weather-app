@@ -1,13 +1,12 @@
 import React from 'react';
 import './Error.scss';
 
-const Error = () => {
-    return (
-        <div className="Error">
-            <p>We are not able to give you the weather forecast right now.</p>
-            <p>Please try again later.</p>
-        </div>
-    );
-}
+const Error: React.FC = () => {
+	return (
+		<div className="Error">
+			<p>Oops! Something went wrong. Please try again later.</p>
+		</div>
+	);
+};
 
 export default Error;
