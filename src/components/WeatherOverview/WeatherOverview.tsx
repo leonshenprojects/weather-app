@@ -45,7 +45,7 @@ const WeatherOverview: React.FC<WeatherOverviewProps> = ({
 						</span>
 					</div>
 
-					<div className="WeatherOverview__temp">{temp}</div>
+					<div className="WeatherOverview__temp">{temp}&#176;</div>
 				</div>
 			</article>
 

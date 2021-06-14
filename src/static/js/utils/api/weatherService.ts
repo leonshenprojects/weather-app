@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { WeatherApiResponse } from '../types';
+import { WeatherApiResponse } from './../types';
 
 export const getWeatherData = async (): Promise<
 	AxiosResponse<WeatherApiResponse>
