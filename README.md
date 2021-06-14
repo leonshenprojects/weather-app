@@ -37,7 +37,7 @@ yarn lint:fix
 - Test the rest of the util functions and components.
 - Allow for more meaningful error messages.
 - Navigate through the app with a screen reader and improve accessability.
-- Implment I18n.
+- Implement I18n.
 - IE support if necessary.
 - Ask designers for all custom icons.
 - CORS - adjust proxy for production.
