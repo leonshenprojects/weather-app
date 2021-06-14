@@ -1,7 +1,7 @@
 import React from 'react';
 import './WeatherOverview.scss';
 import getWeatherIcon from './../../static/js/utils/getWeatherIcon';
-import { getDate } from '../../static/js/utils/dateTime';
+import { getDate } from '../../static/js/utils/datetime';
 
 interface WeatherOverviewProps {
 	cityName: string;

@@ -1,4 +1,4 @@
-import { getDate, getTime } from './dateTime';
+import { getDate, getTime } from './datetime';
 
 describe('getDate', () => {
 	it('should return the correct date object', () => {

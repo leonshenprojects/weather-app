@@ -3,7 +3,7 @@ import Error from '../../components/Error/Error';
 import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
 import WeatherListItem from './../../components/WeatherListItem/WeatherListItem';
 import WeatherOverview from './../../components/WeatherOverview/WeatherOverview';
-import { getTime } from './../../static/js/utils/dateTime';
+import { getTime } from '../../static/js/utils/datetime';
 import getTempRange from './../../static/js/utils/getTempRange';
 import kelvinsToCelsius from '../../static/js/utils/kelvinsToCelsius';
 import { useWeatherData } from '../../hooks/useWeatherData';
